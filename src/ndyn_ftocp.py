@@ -99,7 +99,7 @@ class NFTOCPNLP(object):
         self.ubg_dyanmics = [0] * (n * self.N)
 
     def NonLinearBicycleModel(self, x, u):
-        m = 0.9 # 1.98
+        m = 1.98 # 1.98
         lf = 0.125
         lr = 0.125
         Iz = 0.024 # 0.024
