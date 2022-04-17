@@ -6,13 +6,13 @@ from ndyn_ftocp import NFTOCPNLP
 
 
 ## Parameters initialization
-N = 55  # 20
+N = 30  # 20
 n_dy = 6
 d = 2
 x0_dy = np.zeros(6)
 dt = 0.1
 sys_dy = systemdy(x0_dy, dt)
-maxTime = 55
+maxTime = 30
 xRef = np.array([10, 10, 0, np.pi/2])
 xRef_dy = np.array([10, 10, np.pi/2, 0, 0, 0])
 
@@ -72,29 +72,7 @@ SolveTime_dy = sum(nlp_dy.solverTime) / len(nlp_dy.solverTime)
 print("Solving time for dynamic model:", SolveTime_dy)
 
 
-arr = np.array(xPredNLP_dy)
-arr_2 = arr.reshape(3080, 6)
-arr_1 = np.array(sys_dy.x)
-arr_3 = np.zeros(56)
-for i in range(56):
-	arr_3[i] = arr_2[i, 3]
-plt.figure()
-time = np.linspace(0, 55, 56)
-for t in range(0, maxTime):
-	if t == 0:
-		plt.plot(xPredNLP_dy[t][:, 0], '--.b', label='NLP-predicted x position')
-	else:
-		time_1 = np.linspace(t, 55, 56-t)
-		time_1 = time_1.tolist()
-		plt.plot(time_1, xPredNLP_dy[t][t:56, 0], '--.b')
-
-plt.plot(time, arr_1[:, 0], '-*r', label="Close-loop simulated x position")
-plt.xlabel('Time')
-plt.ylabel('X-Position')
-plt.legend()
-plt.show()
-
-for timeToPlot in [0, 30]:
+for timeToPlot in [0, 10]:
 	plt.figure()
 	plt.plot(xPredNLP_dy[timeToPlot][:,0], xPredNLP_dy[timeToPlot][:,1], '--.b', label="Simulated trajectory using NLP-aided MPC at time $t = $"+str(timeToPlot))
 	plt.plot(xPredNLP_dy[timeToPlot][0,0], xPredNLP_dy[timeToPlot][0,1], 'ok', label="$x_t$ at time $t = $"+str(timeToPlot))
@@ -160,7 +138,6 @@ plt.plot(xPredNLP_dy[0][:,3], '-*r', label='NLP performance')
 plt.plot(x_cl_nlp_dy[:,3], 'ok', label='Closed-loop performance')
 plt.xlabel('Time')
 plt.ylabel('Velocity of the x-axis')
-plt.xlim(-1,56)
 plt.legend()
 plt.show()
 
